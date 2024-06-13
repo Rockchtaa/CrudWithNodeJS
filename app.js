@@ -8,6 +8,10 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 var moment = require("moment");
 
+var methodOverride = require('method-override') // possibility to delete
+app.use(methodOverride('_method'));
+
+
 // Auto refresh(not included yet)
 const path = require("path");
 const livereload = require("livereload");
@@ -39,12 +43,12 @@ app.get("/user/add.html", (req, res) => {
   res.render("user/add");
 });
 
-app.get("/user/edit.html", (req, res) => {
+app.get("/edit/:id", (req, res) => {
   res.render("user/edit");
 });
 
 
-app.get("/user/:id", (req, res) => {
+app.get("/view/:id", (req, res) => {
   
   // result ==> object
   User.findById(req.params.id)
@@ -70,6 +74,16 @@ app.post("/user/add.html", (req, res) => {
     });
 });
 
+// Delete Request
+app.delete("/edit/:id", (req, res) => {
+    User.findByIdAndDelete(req.params.id)
+    .then(() => { 
+      res.redirect("/");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
 mongoose
   .connect(

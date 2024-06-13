@@ -45,7 +45,7 @@
           </ol>
 
 
-          <p class="me-md-5"> <span class="fw-medium fs-6">Id :</span> 6487021520bcf1af6319484c</p>
+          <p class="me-md-5"> <span class="fw-medium fs-6">Id :</span> 6487021520bcf1af6319484c</p> 
         </nav>
 
 
@@ -59,7 +59,7 @@
           <div class="col-md-6">
             <label for="inputfirstName4" class="form-label">First Name:</label>
             <input
-              placeholder="Ali..."
+              placeholder="Yassine..."
               type="text"
               class="form-control"
               id="inputfirstName4"
@@ -68,7 +68,7 @@
           <div class="col-md-6">
             <label for="inputlastName4" class="form-label">Last Name:</label>
             <input
-              placeholder="Hassan..."
+              placeholder="el-brahmi..."
               type="text"
               class="form-control"
               id="inputlastName4"
@@ -78,7 +78,7 @@
           <div class="col-md-6">
             <label for="inputemail4" class="form-label">Email:</label>
             <input
-              placeholder="ali@gmail.com"
+              placeholder="Yassine@gmail.com"
               type="email"
               class="form-control"
               id="inputemail4"
@@ -113,7 +113,7 @@
                 <option selected hidden disabled>Choose here ...</option>
 
                 <option>Morocco</option>
-                <option>Egypt</option>
+                <option>Germany</option>
               </select>
             </div>
           </div>
@@ -175,9 +175,11 @@
               >
                 Close
               </button>
-              <button type="button" class="btn btn-danger">
-                Delete
-              </button>
+              <form action="/edit/<% item._id %>?_method=DELETE" method="post">
+                <button type="button" class="btn btn-danger">
+                  Delete
+                </button>
+              </form>
             </div>
           </div>
         </div>
