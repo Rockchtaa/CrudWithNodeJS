@@ -3,7 +3,7 @@ const app = express();
 const port = 3001;
 const mongoose = require("mongoose");
 app.use(express.urlencoded({ extended: true }));
-const User = require("./models/customerSchema");
+const User = require("./models/customerSchema"); // user is "UserSchema" from the structure
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 var moment = require("moment");
@@ -32,7 +32,9 @@ app.get("/", (req, res) => {
 
   User.find()
     .then((result) => { 
-      res.render("index", {arr: result, moment: moment});
+     
+        res.render("index", {arr: result, moment: moment}); // arr is result and result is the data in mongoose. 
+
     })
     .catch((err) => { 
       console.log(err);
@@ -44,14 +46,22 @@ app.get("/user/add.html", (req, res) => {
 });
 
 app.get("/edit/:id", (req, res) => {
-  res.render("user/edit");
+
+  User.findById(req.params.id)
+  .then((result) => { 
+    res.render("user/edit", {obj: result, moment : moment});
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
 });
 
 
 app.get("/view/:id", (req, res) => {
   
   // result ==> object
-  User.findById(req.params.id)
+  User.findById(req.params.id)    // to get only one single object
     .then((result) => { 
       res.render("user/view", {obj: result, moment : moment});
     })
