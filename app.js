@@ -27,7 +27,7 @@ liveReloadServer.server.once("connection", () => {
   }, 100);
 });
 
-// GET Request
+// GET Requestj
 app.get("/", (req, res) => {
 
   User.find()
@@ -68,20 +68,39 @@ app.get("/view/:id", (req, res) => {
     .catch((err) => {
       console.log(err);
     });
+
 });
 
 
 // POST Request
 app.post("/user/add.html", (req, res) => {
-  const user = new User(req.body);
-  user
-    .save()
+ 
+    User.create(req.body)   // ==> we can use save() instead of create()
     .then(() => {
       res.redirect("/");
     })
     .catch((err) => {
       console.log(err);
     });
+
+});
+
+app.post("/search", (req, res) => {
+
+  const search = req.body.search.trim();
+ 
+  User.find( {$or: [{ firename: search }, {lastName : search }]} )  
+
+  .then((result) => {
+    
+    res.render("user/search", {arr: result, moment : moment});
+    console.log(result)
+
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
 });
 
 // Delete Request
@@ -93,6 +112,24 @@ app.delete("/edit/:id", (req, res) => {
     .catch((err) => {
       console.log(err);
     });
+});
+
+// update the user info
+app.put("/edit/:id", (req, res) => {
+  // console.log(req.body)
+
+  User.updateOne({ _id : req.params.id }, req.body) // must give key and value or use findByAndUpdate
+  
+  .then((result) => {
+
+    res.redirect("/");
+
+  })
+  
+  .catch((err) => {
+    console.log(err)
+  });
+
 });
 
 mongoose
