@@ -85,23 +85,53 @@ app.post("/user/add.html", (req, res) => {
 
 });
 
-app.post("/search", (req, res) => {
+// app.post("/search", (req, res) => {
 
-  const search = req.body.search.trim();
+//   const search = req.body.search.trim();
  
-  User.find( {$or: [{ firename: search }, {lastName : search }]} )  
+//   User.find( {$or: [{ firename: search }, {lastName : search }]} )  
 
-  .then((result) => {
+//   .then((result) => {
     
-    res.render("user/search", {arr: result, moment : moment});
-    console.log(result)
+//     res.render("user/search", {arr: result, moment : moment});
+//     console.log(result)
 
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
 
+// });
+
+
+// Search route
+app.post("/search", (req, res) => {
+  
+  const search = req.body.search.trim();
+  const searchRegex = new RegExp(search, 'i');
+
+  // search by multiple choices (fields)
+  const query = {
+    $or: [
+      { firename: searchRegex },
+      { lastName: searchRegex },
+      { email: searchRegex },
+      { gender: searchRegex },
+      { country: searchRegex },
+    ]
+  };
+
+  User.find(query)
+    .then((result) => {
+      res.render("user/search", { arr: result, moment: moment });
+      console.log(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
+
+
 
 // Delete Request
 app.delete("/edit/:id", (req, res) => {
